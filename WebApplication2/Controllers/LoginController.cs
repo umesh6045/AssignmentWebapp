@@ -29,36 +29,42 @@ namespace WebApplication2.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Index(UserInfo Info)
+        public async Task<ActionResult> Index(loginclass Info)
         {
-
+            var client = new HttpClient();
             //var client = new HttpClient();
             //var responseTask = await client.GetAsync("https://localhost:44309/api/values");
             //if (responseTask.IsSuccessStatusCode)
             //{
             // var sss=  await responseTask.Content.ReadAsStringAsync();
-
-            using (var client = new HttpClient())
+            if (ModelState.IsValid)
             {
-                client.BaseAddress = new Uri("http://localhost:63847");
-
-                //HTTP POST
-                if (string.IsNullOrEmpty(Info.PassCode))
+                using (client = new HttpClient())
                 {
-                    var httpContent = new StringContent(JsonConvert.SerializeObject(Info), Encoding.UTF8, "application/json");
-                    var postTask = client.PostAsync("api/Register", httpContent);
-                    postTask.Wait();
+                    client.BaseAddress = new Uri("http://localhost:63847");
 
-                    var result = postTask.Result;
-                    if (result.IsSuccessStatusCode)
+                    //HTTP POST
+                    if (string.IsNullOrEmpty(Info.PassCode))
                     {
+                        var httpContent = new StringContent(JsonConvert.SerializeObject(Info), Encoding.UTF8, "application/json");
+                        var postTask = client.PostAsync("api/Register", httpContent);
+                        postTask.Wait();
 
-                        UserInfo Infor = JsonConvert.DeserializeObject<UserInfo>(await result.Content.ReadAsStringAsync());
-                        return View(Infor);
+                        var result = postTask.Result;
+                        if (result.IsSuccessStatusCode)
+                        {
+
+                            loginclass Infor = JsonConvert.DeserializeObject<loginclass>(await result.Content.ReadAsStringAsync());
+                            return View(Infor);
+                        }
                     }
                 }
-                else
+            }
+            else
+            {
+                using (client = new HttpClient())
                 {
+                    client.BaseAddress = new Uri("http://localhost:63847");
                     var httpContent = new StringContent(JsonConvert.SerializeObject(Info), Encoding.UTF8, "application/json");
                     var postTask = client.PostAsync("/api/Validate", httpContent);
                     postTask.Wait();
@@ -73,11 +79,10 @@ namespace WebApplication2.Controllers
                         //}
                         return View(Info);
                     }
-
-                }
-                    return View();
+                }               
             }
-            
+            return View(Info);
+
         }
         public ActionResult SignUp()
         {

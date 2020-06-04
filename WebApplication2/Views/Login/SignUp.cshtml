@@ -28,6 +28,7 @@
     <div class="formrow">
         @Html.LabelFor(m => m.Email):<br />
         @Html.TextBoxFor(m => m.Email, new {   @class = "form-control"})<br />
+        @Html.ValidationMessageFor(m => m.Email)
     </div>
     <div class="formrow">
         @Html.LabelFor(m => m.Password):<br />
@@ -43,14 +44,17 @@
     <div class="formrow">
         @Html.LabelFor(m => m.FirstName):<br />
         @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })<br />
+        @Html.ValidationMessageFor(m=>m.FirstName)
     </div>
     <div class="formrow">
         @Html.LabelFor(m => m.LastName):<br />
         @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })<br />
+        @Html.ValidationMessageFor(m => m.LastName)
     </div>
-    @*<div class="formrow">
+    <div class="formrow">
         @Html.LabelFor(m => m.PhoneNumber):<br />
-        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })<br />
+        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @type="number" })<br />
+        @Html.ValidationMessageFor(m => m.PhoneNumber)
     </div>
     <div class="formrow">
         @Html.LabelFor(m => m.Address):<br />
@@ -59,7 +63,7 @@
     <div class="formrow">
         @Html.LabelFor(m => m.Promotions):<br />
         @Html.TextBoxFor(m => m.Promotions, new { @class = "form-control" })<br />
-    </div>*@
+    </div>
     <div class="formrow">
         <input type="submit" class="k-button formbutton" value="Sign up" />
     </div>
