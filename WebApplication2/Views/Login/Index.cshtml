@@ -1,0 +1,64 @@
+﻿@model WebApplication2.Models.UserInfo
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+}
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".reveal").on('click', function () {
+                var pwd = $(".pwd");
+                if (pwd.attr('type') === 'password') {
+                    pwd.attr('type', 'text');
+                } else {
+                    pwd.attr('type', 'password');
+                }
+            });
+        });
+
+    </script>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
+
+    if (Model==null || (Model != null && !Model.ShowPassCode))
+    {
+        <div class="formrow">
+            @Html.LabelFor(m => m.Email):<br />
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })<br />
+        </div>
+        <div class="formrow">
+            @Html.LabelFor(m => m.Password):<br />
+            <div>
+                <div style="display:flex">
+                    @Html.PasswordFor(m => m.Password, new { autocomplete = "off", @class = "form-control pwd" })
+                    <span class="input-group-btn">
+                        <button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
+                    </span>
+                </div>
+            </div><br />
+        </div>
+    }
+
+    if (Model != null && Model.ShowPassCode && string.IsNullOrEmpty(Model.PassCode))
+    {
+        <div class="formrow">
+            @Html.LabelFor(m => m.PassCode):<br />
+            @Html.TextBoxFor(m => m.PassCode, new { @class = "form-control" })<br />
+        </div>
+    }
+    if (Model != null && Model.ShowPassCode && !string.IsNullOrEmpty(Model.PassCode))
+    {
+        <div class="formrow">
+           <h3>LoggedIn Successfully</h3>
+        </div>
+    }
+    if (Model == null || (Model != null && !Model.LoggedIn))
+    {
+    <div class="formrow">
+        <input type="submit" class="k-button formbutton" value="Login" />
+    </div>
+    }
+}

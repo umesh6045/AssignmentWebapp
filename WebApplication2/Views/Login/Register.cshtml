@@ -1,0 +1,22 @@
+﻿@model WebApplication2.Models.UserInfo
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Register</h2>
+
+<div>
+    <h4>Enter OTP  To Complete Signup</h4>
+    @using (Html.BeginForm())
+    {
+        <div class="formrow">
+            @Html.LabelFor(m => m.PassCode):<br />
+            @Html.TextBoxFor(m => m.PassCode)<br />
+        </div>
+        <div class="formrow">
+            <input type="submit" class="k-button formbutton" value="Validate" />
+        </div>
+    }
+</div>
+
